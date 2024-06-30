@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Page</title>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+  const hotelsData = [
+    { id: 1, name: 'White Medows', location: 'Manali', price: '$100' },
+    { id: 2, name: 'radison', location: 'Manali', price: '$120' },
+    { id: 3, name: 'club mahindra', location: 'Goa', price: '$150' },
+    { id: 4, name: 'ananta', location: 'Goa', price: '$180' },
+    { id: 5, name: 'club mahindra poovar', location: 'Kerala', price: '$200' },
+    { id: 6, name: 'fun star', location: 'Kerala', price: '$220' }
+  ];
+
+  const HotelPage = () => {
+    const [selectedDestination, setSelectedDestination] = React.useState('');
+    const [filteredHotels, setFilteredHotels] = React.useState([]);
+
+    const handleDestinationChange = (e) => {
+      const destination = e.target.value;
+      setSelectedDestination(destination);
+      const filtered = hotelsData.filter(hotel => hotel.location === destination);
+      setFilteredHotels(filtered);
+    };
+
+    return (
+      <div>
+        <h1>Hotel Page</h1>
+        <label htmlFor="destination">Select Destination:</label>
+        <select id="destination" value={selectedDestination} onChange={handleDestinationChange}>
+          <option value="">Select</option>
+          <option value="Manali">Manali</option>
+          <option value="Goa">Goa</option>
+          <option value="Kerala">Kerala</option>
+        </select>
+
+        <h2>Search Results</h2>
+        {filteredHotels.length === 0 ? (
+          <p>No hotels found for the destination {selectedDestination}</p>
+        ) : (
+          <ul>
+            {filteredHotels.map((hotel) => (
+              <li key={hotel.id}>
+                <strong>{hotel.name}</strong> - Location: {hotel.location}, Price: {hotel.price}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  };
+
+  ReactDOM.render(<HotelPage />, document.getElementById('root'));
+</script>
+
+</body>
+</html>
